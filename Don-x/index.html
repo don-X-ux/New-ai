@@ -14,6 +14,21 @@ body{
 }
 .hidden{display:none}
 
+#login{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+#login button{
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+}
+
 /* FEED */
 #feed{
   height:100vh;
@@ -63,10 +78,14 @@ video{
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/* 🔥 DÁN firebaseConfig CỦA BẠN Ở ĐÂY */
+/* 🔥 DÁN firebaseConfig CỦA BẠN VÀO ĐÂY */
 const firebaseConfig = {
   apiKey: "AIzaSyDmJ8gNyrufrTyOifSitObXwSXuz8pfFPM",
   authDomain: "ai-id-8b241.firebaseapp.com",
@@ -92,7 +111,7 @@ onAuthStateChanged(auth, user=>{
   }
 });
 
-/* FEED DEMO */
+/* FEED DEMO – VUỐT LÊN XUỐNG */
 function loadFeed(){
   feed.innerHTML = `
     <div class="video">
