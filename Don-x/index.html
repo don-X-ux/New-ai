@@ -4,22 +4,69 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mini TikTok</title>
+
 <style>
-body{margin:0;background:black;color:white;font-family:sans-serif}
-button{padding:12px;border:none;border-radius:8px}
+body{
+  margin:0;
+  background:black;
+  color:white;
+  font-family:sans-serif;
+}
+.hidden{display:none}
+
+/* FEED */
+#feed{
+  height:100vh;
+  overflow-y:scroll;
+  scroll-snap-type:y mandatory;
+}
+.video{
+  height:100vh;
+  scroll-snap-align:start;
+  position:relative;
+}
+video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* NÚT */
+.actions{
+  position:absolute;
+  right:12px;
+  bottom:120px;
+  text-align:center;
+}
+.actions button{
+  background:none;
+  border:none;
+  color:white;
+  font-size:26px;
+  margin:10px 0;
+}
 </style>
 </head>
+
 <body>
 
-<h2>Mini TikTok</h2>
-<button id="loginBtn">Đăng nhập Google</button>
+<!-- LOGIN -->
+<div id="login">
+  <h2>Mini TikTok</h2>
+  <button id="loginBtn">Đăng nhập Google</button>
+</div>
 
-<!-- FIREBASE -->
+<!-- APP -->
+<div id="app" class="hidden">
+  <div id="feed"></div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup } 
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+/* 🔥 DÁN firebaseConfig CỦA BẠN Ở ĐÂY */
 const firebaseConfig = {
   apiKey: "AIzaSyDmJ8gNyrufrTyOifSitObXwSXuz8pfFPM",
   authDomain: "ai-id-8b241.firebaseapp.com",
@@ -29,11 +76,44 @@ const firebaseConfig = {
   appId: "1:319755345168:web:e60c39a9e37a75d6ff9995"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const appFB = initializeApp(firebaseConfig);
+const auth = getAuth(appFB);
 const provider = new GoogleAuthProvider();
 
+/* LOGIN */
 loginBtn.onclick = () => signInWithPopup(auth, provider);
+
+/* SAU KHI LOGIN */
+onAuthStateChanged(auth, user=>{
+  if(user){
+    login.classList.add("hidden");
+    app.classList.remove("hidden");
+    loadFeed();
+  }
+});
+
+/* FEED DEMO */
+function loadFeed(){
+  feed.innerHTML = `
+    <div class="video">
+      <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay loop muted></video>
+      <div class="actions">
+        <button>❤️</button>
+        <button>💬</button>
+        <button>➕</button>
+      </div>
+    </div>
+
+    <div class="video">
+      <video src="https://www.w3schools.com/html/movie.mp4" autoplay loop muted></video>
+      <div class="actions">
+        <button>❤️</button>
+        <button>💬</button>
+        <button>➕</button>
+      </div>
+    </div>
+  `;
+}
 </script>
 
 </body>
